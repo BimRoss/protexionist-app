@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Engagement proposal · The Digital Protexionist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+<style>
+  :root {
+    --bg: #0a0f1a;
+    --bg-soft: #121826;
+    --ink: #eef2f7;
+    --ink-dim: #8a95a7;
+    --line: #1f2738;
+    --accent: #4a8eff;
+    --accent-deep: #1e4d7e;
+    --accent-soft: #b8d2ff;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: 'Inter', system-ui, -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
+
+  .nav { display: flex; align-items: center; justify-content: space-between; padding: 22px 40px; border-bottom: 1px solid var(--line); position: sticky; top: 0; backdrop-filter: blur(14px); background: rgba(10,15,26,0.82); z-index: 10; }
+  .brand { display: flex; align-items: center; gap: 12px; font-weight: 600; letter-spacing: -0.01em; text-decoration: none; color: var(--ink); }
+  .brand .logo { width: 32px; height: 32px; border-radius: 50%; background-image: url('logo.png'); background-size: cover; box-shadow: 0 0 0 1px rgba(74,142,255,0.25), 0 4px 18px rgba(74,142,255,0.18); }
+  .brand .mark { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 500; font-size: 15px; letter-spacing: 0.02em; }
+  .brand .mark em { font-style: normal; color: var(--accent); font-weight: 600; }
+  .back-link { font-size: 13px; padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); text-decoration: none; transition: all .2s; }
+  .back-link:hover { border-color: var(--accent); color: var(--accent); }
+
+  .wrap { max-width: 920px; margin: 0 auto; padding: 56px 40px 100px; }
+  .page-eyebrow { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; }
+  .page-title { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 32px; letter-spacing: -0.03em; margin: 0 0 8px; line-height: 1.15; }
+  .page-lead { color: var(--ink-dim); font-size: 15px; line-height: 1.55; margin: 0 0 32px; max-width: 600px; }
+
+  .btn { font-family: inherit; font-size: 15px; font-weight: 500; padding: 14px 22px; border-radius: 999px; border: none; cursor: pointer; transition: all .2s; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-primary { background: linear-gradient(180deg, #5a9dff, #2d6fdb); color: #ffffff; box-shadow: 0 1px 0 rgba(255,255,255,0.18) inset, 0 8px 24px rgba(74,142,255,0.32); }
+  .btn-primary:hover { background: linear-gradient(180deg, #6eabff, #3a7be8); transform: translateY(-1px); }
+  .btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+  .btn-ghost:hover { border-color: var(--ink-dim); }
+  .btn .arrow { transition: transform .2s; }
+  .btn:hover .arrow { transform: translateX(3px); }
+
+  /* Proposal block */
+  .proposal { background: #fafbfc; color: #1a1f2c; border-radius: 18px; padding: 0; box-shadow: 0 24px 80px rgba(0,0,0,0.4); overflow: hidden; font-family: 'Inter', sans-serif; }
+  .proposal-header { padding: 32px 40px 28px; background: linear-gradient(180deg, #ffffff, #f3f5f8); border-bottom: 1px solid #e3e7ee; position: relative; }
+  .proposal-header::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: linear-gradient(90deg, var(--accent-deep), var(--accent), var(--accent-deep)); }
+  .proposal-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+  .proposal-brand .mark { width: 36px; height: 36px; border-radius: 50%; background-image: url('logo.png'); background-size: cover; box-shadow: 0 2px 8px rgba(30,77,126,0.25); }
+  .proposal-brand .name { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 15px; color: #1a1f2c; letter-spacing: -0.01em; }
+  .proposal-brand .name span { color: var(--accent-deep); font-weight: 700; }
+  .proposal-title { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 28px; letter-spacing: -0.025em; color: #1a1f2c; line-height: 1.15; margin-bottom: 6px; }
+  .proposal-subtitle { font-size: 14px; color: #5b6478; margin-bottom: 24px; }
+  .proposal-meta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .proposal-meta .item { display: flex; flex-direction: column; gap: 4px; }
+  .proposal-meta .k { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #8893a6; font-weight: 600; }
+  .proposal-meta .v { font-size: 14px; color: #1a1f2c; font-weight: 500; }
+  .proposal-meta .v.warn { color: #b76b00; }
+  .proposal-section { padding: 28px 40px; border-bottom: 1px solid #e3e7ee; }
+  .proposal-section h4 { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 600; margin: 0 0 14px; color: #1a1f2c; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; }
+  .proposal-section h4::before { content: ""; display: inline-block; width: 4px; height: 16px; background: var(--accent); border-radius: 2px; }
+  .proposal-section p { margin: 0 0 12px; color: #2e3645; font-size: 14px; line-height: 1.6; }
+  .proposal-section p:last-child { margin-bottom: 0; }
+  .proposal-section strong { color: var(--accent-deep); font-weight: 600; }
+
+  .estimate-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .estimate-table th { text-align: left; padding: 10px 12px; border-bottom: 1px solid #d8dde6; font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: #5b6478; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .estimate-table td { padding: 12px; border-bottom: 1px solid #ecf0f5; color: #2e3645; vertical-align: top; }
+  .estimate-table tr:last-child td { border-bottom: none; }
+  .estimate-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .estimate-table .item-name { font-weight: 500; color: #1a1f2c; }
+  .estimate-table .item-desc { font-size: 12px; color: #6b7589; margin-top: 2px; }
+  .estimate-table .total-row td { font-weight: 700; color: #1a1f2c; background: #eef3fb; border-top: 2px solid var(--accent-deep); padding-top: 14px; padding-bottom: 14px; }
+  .estimate-table .total-row .num { font-size: 16px; color: var(--accent-deep); }
+
+  .gantt { margin-top: 8px; }
+  .gantt-scale { display: grid; grid-template-columns: 160px repeat(12, 1fr); gap: 4px; align-items: end; padding-bottom: 8px; border-bottom: 1px solid #d8dde6; margin-bottom: 8px; }
+  .gantt-scale .lbl { font-size: 10px; letter-spacing: 0.10em; text-transform: uppercase; color: #8893a6; font-weight: 600; }
+  .gantt-scale .wk { font-size: 10px; color: #8893a6; text-align: center; font-variant-numeric: tabular-nums; }
+  .gantt-row { display: grid; grid-template-columns: 160px repeat(12, 1fr); gap: 4px; align-items: center; padding: 6px 0; }
+  .gantt-row .name { font-size: 13px; color: #1a1f2c; font-weight: 500; }
+  .gantt-row .bar { grid-column: var(--col); height: 18px; border-radius: 6px; background: linear-gradient(180deg, var(--accent), var(--accent-deep)); box-shadow: 0 1px 2px rgba(30,77,126,0.25); position: relative; }
+  .gantt-row .bar.advisory { background: linear-gradient(180deg, #f4a93a, #c06d00); }
+  .gantt-row .bar .bar-label { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); color: white; font-size: 10px; font-weight: 600; letter-spacing: 0.04em; text-shadow: 0 1px 1px rgba(0,0,0,0.2); white-space: nowrap; }
+
+  .nda { background: #f0f3f8; border-radius: 12px; padding: 18px 20px; margin-top: 8px; border: 1px solid #d8dde6; }
+  .nda h5 { font-family: 'Space Grotesk', sans-serif; font-size: 13px; margin: 0 0 10px; color: #1a1f2c; font-weight: 600; letter-spacing: 0.02em; }
+  .nda p { font-size: 12px; color: #4a5468; line-height: 1.5; margin: 0 0 12px; }
+  .nda-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; align-items: end; }
+  .nda-field { display: flex; flex-direction: column; gap: 4px; }
+  .nda-field label { font-size: 10px; letter-spacing: 0.10em; text-transform: uppercase; color: #6b7589; font-weight: 600; }
+  .nda-field .signature { font-family: 'Brush Script MT', cursive; font-size: 20px; color: #1a1f2c; border-bottom: 1px solid #b3bbcc; padding: 4px 0; min-height: 30px; }
+  .nda-field .empty { font-family: inherit; font-size: 13px; color: #b3bbcc; font-style: italic; border-bottom: 1px solid #b3bbcc; padding: 4px 0; min-height: 30px; }
+  .nda-check { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #2e3645; padding: 12px 0; border-top: 1px dashed #d8dde6; margin-top: 12px; }
+  .nda-check .box { width: 16px; height: 16px; border: 2px solid var(--accent); border-radius: 4px; background: var(--accent); display: flex; align-items: center; justify-content: center; color: white; font-size: 11px; font-weight: 700; }
+
+  .proposal-actions { display: flex; gap: 12px; padding: 24px 40px; background: #f3f5f8; }
+
+  .empty-state { background: var(--bg-soft); border: 1px solid var(--line); border-radius: 18px; padding: 40px; text-align: center; }
+  .empty-state h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 22px; margin: 0 0 10px; letter-spacing: -0.02em; }
+  .empty-state p { color: var(--ink-dim); margin: 0 0 24px; font-size: 14px; }
+
+  footer { border-top: 1px solid var(--line); padding: 40px; color: var(--ink-dim); font-size: 13px; text-align: center; margin-top: 60px; }
+  footer em { font-style: normal; color: var(--accent-soft); font-weight: 500; }
+
+  @media (max-width: 760px) {
+    .wrap { padding: 32px 20px 60px; }
+    .nav { padding: 16px 20px; }
+    .proposal-header { padding: 24px 24px 22px; }
+    .proposal-section { padding: 22px 24px; }
+    .proposal-actions { padding: 18px 24px; flex-direction: column; }
+    .proposal-meta { grid-template-columns: 1fr 1fr; }
+    .proposal-title { font-size: 22px; }
+    .gantt-scale, .gantt-row { grid-template-columns: 110px repeat(12, 1fr); }
+    .nda-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="index.html">
+    <span class="logo"></span>
+    <span class="mark">The Digital <em>Protexionist</em></span>
+  </a>
+  <a class="back-link" href="index.html#start">← Back to discovery</a>
+</nav>
+
+<main class="wrap">
+  <div class="page-eyebrow">Engagement proposal</div>
+  <h1 class="page-title">Your tailored brief.</h1>
+  <p class="page-lead">Generated from your discovery answers. Numbers are a rough estimate; we firm them up on the call.</p>
+  <div id="root"></div>
+</main>
+
+<footer>
+  The Digital <em>Protexionist</em> · digital transformation, defended · 2026
+</footer>
+
+<script>
+  const questions = {
+    change: {
+      transparency: { title: "Operational Transparency" },
+      security:     { title: "Security & Compliance" },
+      efficiency:   { title: "Efficiency & Training" },
+      all:          { title: "All three" },
+    },
+    reach: {
+      team:       { title: "Single team" },
+      department: { title: "Department" },
+      multisite:  { title: "Multi-site" },
+      enterprise: { title: "Enterprise" },
+    },
+    area: {
+      ops:     { title: "Operations" },
+      finance: { title: "Finance & Risk" },
+      tech:    { title: "Technology & Data" },
+      gtm:     { title: "Go-to-market" },
+    },
+    footprint: {
+      small: { title: "Under 25 systems" },
+      mid:   { title: "25 – 100 systems" },
+      large: { title: "100 – 250 systems" },
+      huge:  { title: "250+ systems" },
+    },
+    metric: {
+      roi:    { title: "ROI" },
+      ebitda: { title: "EBITDA lift" },
+      cost:   { title: "Cost reduction" },
+      risk:   { title: "Risk reduction" },
+    },
+  };
+
+  function fmt(n) { return '$' + n.toLocaleString('en-US'); }
+
+  function todayLong() {
+    var d = new Date();
+    var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  }
+
+  function computeEstimate(brief) {
+    var levers = brief.levers || {};
+    var advisory = ['people','process','data','technology'].filter(function(k){
+      var v = levers[k]; return v === 'advise' || v === 'update' || v === 'more' || v === 'recommend';
+    });
+    var rate = 275;
+
+    var phases = [];
+    phases.push({ name: 'Discovery & alignment', hours: 120, desc: 'Stakeholder interviews, current-state read, success-metric calibration.' });
+
+    advisory.forEach(function(lever){
+      var labels = { people: 'People sprint', process: 'Process sprint', data: 'Data sprint', technology: 'Technology sprint' };
+      var hours = lever === 'process' ? 180 : (lever === 'data' ? 200 : 140);
+      var descs = {
+        people: 'Operating model, RACI, capability gap analysis, change leadership pairing.',
+        process: 'Process mapping, redesign, RPA candidates, exception handling.',
+        data: 'Data inventory, quality scoring, source-of-truth definition, governance.',
+        technology: 'Architecture review, rationalization shortlist, vendor selection support.',
+      };
+      phases.push({ name: labels[lever], hours: hours, desc: descs[lever] });
+    });
+
+    var deliveryWeeks = (brief.reach === 'enterprise' || brief.reach === 'multisite') ? 5 : 4;
+    phases.push({ name: 'Delivery pod', hours: deliveryWeeks * 80, desc: 'Builders against the chosen metric; weekly cadence with the operating sponsor.' });
+    phases.push({ name: 'Handoff & operating model', hours: 60, desc: 'Documentation, runbooks, 30-day operating support and KPI tracking.' });
+
+    var totalHours = phases.reduce(function(a, p){ return a + p.hours; }, 0);
+    var feesSubtotal = totalHours * rate;
+
+    var tools = 8000;
+    if (levers.data === 'more') tools += 6000;
+    if (levers.technology === 'recommend') tools += 6000;
+    if (brief.footprint === 'large' || brief.footprint === 'huge') tools += 4000;
+
+    var expenses = 4000;
+    if (brief.reach === 'multisite') expenses += 6000;
+    if (brief.reach === 'enterprise') expenses += 10000;
+
+    return { rate: rate, phases: phases, totalHours: totalHours, feesSubtotal: feesSubtotal, tools: tools, expenses: expenses, total: feesSubtotal + tools + expenses };
+  }
+
+  function computeSchedule(est) {
+    var rows = [];
+    var weeks = 12;
+    rows.push({ name: 'Discovery & alignment', start: 1, span: 2, advisory: false });
+    var leverPhases = est.phases.filter(function(p){ return p.name.indexOf('sprint') !== -1; });
+    leverPhases.forEach(function(p, i){
+      rows.push({ name: p.name, start: 2 + i, span: 4, advisory: true });
+    });
+    var deliveryStart = Math.min(8, 2 + leverPhases.length + 1);
+    rows.push({ name: 'Delivery pod', start: deliveryStart, span: weeks - deliveryStart, advisory: false });
+    rows.push({ name: 'Handoff & operating', start: weeks - 1, span: 2, advisory: false });
+    return rows;
+  }
+
+  function readBrief() {
+    try {
+      var raw = sessionStorage.getItem('protexionist-brief');
+      if (raw) return JSON.parse(raw);
+    } catch (e) {}
+    return null;
+  }
+
+  function renderEmpty() {
+    document.getElementById('root').innerHTML =
+      '<div class="empty-state">' +
+        '<h3>No brief in session.</h3>' +
+        '<p>Start the discovery flow to generate a tailored proposal.</p>' +
+        '<a class="btn btn-primary" href="index.html#start">Start the discovery <span class="arrow">→</span></a>' +
+      '</div>';
+  }
+
+  function render(brief) {
+    var change = questions.change[brief.change];
+    var reach  = questions.reach[brief.reach];
+    var area   = questions.area[brief.area];
+    var foot   = questions.footprint[brief.footprint];
+    var metric = questions.metric[brief.metric];
+
+    if (!change || !reach || !area || !foot || !metric) { renderEmpty(); return; }
+
+    var est = computeEstimate(brief);
+    var sched = computeSchedule(est);
+    var advisory = ['people','process','data','technology'].filter(function(k){
+      var v = (brief.levers || {})[k]; return v === 'advise' || v === 'update' || v === 'more' || v === 'recommend';
+    });
+
+    var prospectName = brief.prospect || 'XYZ Company';
+    var dateLong = todayLong();
+
+    var overviewPara1 = prospectName + ' is pursuing <strong>' + change.title.toLowerCase() + '</strong> at <strong>' + reach.title.toLowerCase() + '</strong> scale, with the center of gravity in <strong>' + area.title.toLowerCase() + '</strong>. Today\'s lever read shows ' + advisory.length + ' advisory areas, an application footprint of <strong>' + foot.title.toLowerCase() + '</strong>, and a defining success metric of <strong>' + metric.title.toLowerCase() + '</strong>.';
+    var overviewPara2 = 'We propose a phased engagement that protects the investment and defends the ' + metric.title.toLowerCase() + ' case. Operational Intelligence is treated as the human layer above your AI, BI, CI, and DEFi stacks; we lead from there. The work shapes around your existing strategy where it\'s set, and brings advisory weight where the levers say it\'s needed.';
+
+    var approachItems = est.phases.map(function(p){
+      return '<p>· <strong>' + p.name + '</strong> (' + p.hours + ' hrs): ' + p.desc + '</p>';
+    }).join('');
+
+    var rowsHtml = '';
+    est.phases.forEach(function(p){
+      rowsHtml += '<tr>' +
+        '<td><div class="item-name">' + p.name + '</div><div class="item-desc">' + p.desc + '</div></td>' +
+        '<td class="num">' + p.hours + '</td>' +
+        '<td class="num">' + fmt(est.rate) + '</td>' +
+        '<td class="num">' + fmt(p.hours * est.rate) + '</td>' +
+      '</tr>';
+    });
+    rowsHtml += '<tr><td><div class="item-name">Tools & licenses</div><div class="item-desc">Project-period software, data tooling, collaboration.</div></td><td class="num">—</td><td class="num">—</td><td class="num">' + fmt(est.tools) + '</td></tr>';
+    rowsHtml += '<tr><td><div class="item-name">Travel & expenses</div><div class="item-desc">Site visits, materials, incidentals. Billed at cost.</div></td><td class="num">—</td><td class="num">—</td><td class="num">' + fmt(est.expenses) + '</td></tr>';
+    rowsHtml += '<tr class="total-row"><td><div class="item-name">Total (estimate)</div></td><td class="num">' + est.totalHours + '</td><td></td><td class="num">' + fmt(est.total) + '</td></tr>';
+
+    var scaleCols = '';
+    for (var w = 1; w <= 12; w++) scaleCols += '<div class="wk">W' + w + '</div>';
+
+    var ganttRows = sched.map(function(r){
+      var end = Math.min(13, r.start + r.span);
+      var style = '--col: ' + (r.start + 1) + ' / ' + (end + 1) + ';';
+      var cls = 'bar' + (r.advisory ? ' advisory' : '');
+      return '<div class="gantt-row"><div class="name">' + r.name + '</div><div class="' + cls + '" style="' + style + '"><span class="bar-label">' + r.span + ' wk</span></div></div>';
+    }).join('');
+
+    document.getElementById('root').innerHTML =
+      '<div class="proposal">' +
+        '<div class="proposal-header">' +
+          '<div class="proposal-brand"><span class="mark"></span><span class="name">the digital <span>protexionist</span></span></div>' +
+          '<div class="proposal-title">Engagement proposal</div>' +
+          '<div class="proposal-subtitle">' + change.title + ' · ' + reach.title + ' · ' + area.title + '</div>' +
+          '<div class="proposal-meta">' +
+            '<div class="item"><div class="k">Prepared by</div><div class="v">The Digital Protexionist</div></div>' +
+            '<div class="item"><div class="k">Prepared for</div><div class="v">' + prospectName + '</div></div>' +
+            '<div class="item"><div class="k">Date</div><div class="v">' + dateLong + '</div></div>' +
+            '<div class="item"><div class="k">Disclaimer</div><div class="v warn">Rough estimate only</div></div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="proposal-section"><h4>Overview</h4><p>' + overviewPara1 + '</p><p>' + overviewPara2 + '</p></div>' +
+        '<div class="proposal-section"><h4>Approach</h4>' + approachItems + '</div>' +
+        '<div class="proposal-section"><h4>Estimate</h4>' +
+          '<table class="estimate-table">' +
+            '<thead><tr><th>Line item</th><th class="num">Hours</th><th class="num">Rate</th><th class="num">Subtotal</th></tr></thead>' +
+            '<tbody>' + rowsHtml + '</tbody>' +
+          '</table>' +
+        '</div>' +
+        '<div class="proposal-section"><h4>Schedule</h4>' +
+          '<div class="gantt">' +
+            '<div class="gantt-scale"><div class="lbl">Phase</div>' + scaleCols + '</div>' +
+            ganttRows +
+          '</div>' +
+        '</div>' +
+        '<div class="proposal-section"><h4>Confidentiality & engagement terms</h4>' +
+          '<div class="nda">' +
+            '<h5>Mutual NDA & Master Services Agreement (excerpt)</h5>' +
+            '<p>Both parties agree to hold information shared during this engagement in strict confidence. The Digital Protexionist will deliver the agreed scope under standard time-and-materials terms; ' + prospectName + ' will provide reasonable access and a named operating sponsor. Either party may terminate with 10 business days notice; work-in-progress and incurred expenses are billed through the termination date. Full MSA delivered at signing.</p>' +
+            '<div class="nda-check"><span class="box">✓</span> I agree to the confidentiality and engagement terms above.</div>' +
+            '<div class="nda-row">' +
+              '<div class="nda-field"><label>Authorized signatory · ' + prospectName + '</label><div class="empty">Sign here</div></div>' +
+              '<div class="nda-field"><label>Authorized signatory · The Digital Protexionist</label><div class="signature">Scott P.</div></div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="proposal-actions">' +
+          '<a class="btn btn-primary" href="index.html#book">Book a 20-min call <span class="arrow">→</span></a>' +
+          '<a class="btn btn-ghost" href="index.html#start">Edit answers</a>' +
+        '</div>' +
+      '</div>';
+  }
+
+  var brief = readBrief();
+  if (brief) render(brief); else renderEmpty();
+</script>
+</body>
+</html>
