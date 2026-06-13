@@ -96,7 +96,9 @@
   .nda-check { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #2e3645; padding: 12px 0; border-top: 1px dashed #d8dde6; margin-top: 12px; }
   .nda-check .box { width: 16px; height: 16px; border: 2px solid var(--accent); border-radius: 4px; background: var(--accent); display: flex; align-items: center; justify-content: center; color: white; font-size: 11px; font-weight: 700; }
 
-  .proposal-actions { display: flex; gap: 12px; padding: 24px 40px; background: #f3f5f8; }
+  .proposal-actions { display: flex; gap: 12px; padding: 24px 40px; background: #f3f5f8; flex-wrap: wrap; }
+  .btn-pdf { background: white; color: var(--accent-deep); border: 1px solid #d8dde6; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+  .btn-pdf:hover { background: #eef3fb; border-color: var(--accent); }
 
   .empty-state { background: var(--bg-soft); border: 1px solid var(--line); border-radius: 18px; padding: 40px; text-align: center; }
   .empty-state h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 22px; margin: 0 0 10px; letter-spacing: -0.02em; }
@@ -341,9 +343,66 @@
         '</div>' +
         '<div class="proposal-actions">' +
           '<a class="btn btn-primary" href="index.html#book">Book a 20-min call <span class="arrow">→</span></a>' +
+          '<button class="btn btn-pdf" id="download-pdf">Download PDF <span class="arrow">↓</span></button>' +
+          '<button class="btn btn-pdf" id="email-me">Email it to me <span class="arrow">✉</span></button>' +
           '<a class="btn btn-ghost" href="index.html#start">Edit answers</a>' +
         '</div>' +
       '</div>';
+
+    // Wire Download PDF + Email Me actions
+    var slug = (prospectName || 'XYZ').replace(/[^A-Za-z0-9]+/g, '-').replace(/^-+|-+$/g, '').toLowerCase();
+    var fileName = 'protexionist-proposal-' + slug + '.pdf';
+
+    document.getElementById('download-pdf').addEventListener('click', function(){
+      var btn = this;
+      btn.textContent = 'Building PDF…';
+      btn.disabled = true;
+      var node = document.querySelector('.proposal');
+      window.html2pdf().set({
+        margin: 0.4,
+        filename: fileName,
+        image: { type: 'jpeg', quality: 0.96 },
+        html2canvas: { scale: 2, backgroundColor: '#ffffff', useCORS: true },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+        pagebreak: { mode: ['css', 'avoid-all'] },
+      }).from(node).save().then(function(){
+        btn.innerHTML = 'Download PDF <span class="arrow">↓</span>';
+        btn.disabled = false;
+      }).catch(function(){
+        btn.innerHTML = 'Try again';
+        btn.disabled = false;
+      });
+    });
+
+    document.getElementById('email-me').addEventListener('click', function(){
+      var subject = 'Engagement proposal · ' + change.title + ' · ' + reach.title + ' · ' + area.title;
+      var lines = [
+        'Engagement proposal for ' + prospectName,
+        'Prepared by: The Digital Protexionist',
+        'Date: ' + dateLong,
+        '',
+        'Discovery summary',
+        '· Change: ' + change.title,
+        '· Reach: ' + reach.title,
+        '· Area: ' + area.title,
+        '· Footprint: ' + foot.title,
+        '· Success metric: ' + metric.title,
+        '',
+        'Estimate (rough)',
+        '· Hours: ' + est.totalHours + ' @ ' + fmt(est.rate) + '/hr = ' + fmt(est.feesSubtotal),
+        '· Tools & licenses: ' + fmt(est.tools),
+        '· Travel & expenses: ' + fmt(est.expenses),
+        '· Total: ' + fmt(est.total),
+        '',
+        'Live proposal: ' + window.location.href,
+        '',
+        'Next step: book a 20-min call to walk through the brief together.',
+      ];
+      var body = encodeURIComponent(lines.join('\r\n'));
+      var subj = encodeURIComponent(subject);
+      var href = 'mailto:?cc=protexions@protexionist.com&subject=' + subj + '&body=' + body;
+      window.location.href = href;
+    });
   }
 
   var brief = readBrief();
